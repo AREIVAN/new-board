@@ -6,7 +6,7 @@
 #define FRONT_A A2 // ENFRENTE DERECHP2
 #define FRONT_B A1 // ENFRENTE IZQUIERDO1
 #define LEFT A0
-#define SERVO 9
+#define SERVO 9 //servo izquierda
 #define SERVO2 10
 int Mder1 = 3;    //motor 1 izqueirda bn1
 int Mder2 = 5;   // MOTOR 1 IZQUIERDA bni1
@@ -47,17 +47,17 @@ void setup() {
 
 
   FLAG.write(85);
-  FLAG2.write(85);
+  FLAG2.write(105);
 }
 
 void loop() {
 
   Serial.println(digitalRead(REMOTE));
 
-  while (digitalRead(REMOTE) == 0) //mientras esta activo el arrancador poner la bandera a 20 grados y ejecutar battle
+  while (digitalRead(REMOTE) == 1) //mientras esta activo el arrancador poner la bandera a 20 grados y ejecutar battle
   {
-    FLAG.write(180);
-    FLAG2.write(0);
+    FLAG.write(170); //servo izquierda
+    FLAG2.write(10);
     sensorState = sensorValue();
     lineState = lineValue();
 
