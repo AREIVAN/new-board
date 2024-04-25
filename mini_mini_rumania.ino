@@ -6,7 +6,8 @@
 #define FRONT_A A2 // ENFRENTE DERECHP2
 #define FRONT_B A1 // ENFRENTE IZQUIERDO1
 #define LEFT A0
-#define SERVO 10
+#define SERVO 9
+#define SERVO2 10
 int Mder1 = 3;    //motor 1 izqueirda bn1
 int Mder2 = 5;   // MOTOR 1 IZQUIERDA bni1
 int Mizq1 = 6;
@@ -18,6 +19,8 @@ int led3 = 13;
 
 Servo FLAG;
 
+Servo FLAG2;
+
 int sensorState;
 int lineState;
 
@@ -25,6 +28,7 @@ int lineState;
 
 void setup() {
   FLAG.attach(SERVO);
+  FLAG2.attach(SERVO2);
   pinMode(LINE_A, INPUT);
   pinMode(LINE_B, INPUT);
   pinMode(RIGHT, INPUT);
@@ -43,6 +47,7 @@ void setup() {
 
 
   FLAG.write(85);
+  FLAG2.write(85);
 }
 
 void loop() {
@@ -52,6 +57,7 @@ void loop() {
   while (digitalRead(REMOTE) == 0) //mientras esta activo el arrancador poner la bandera a 20 grados y ejecutar battle
   {
     FLAG.write(180);
+    FLAG2.write(0);
     sensorState = sensorValue();
     lineState = lineValue();
 
@@ -65,7 +71,7 @@ void loop() {
 
           case 1:  //DETECTA SENSOR ENFRENTE DERECHA.
             Serial.println("caso  1");
-            derecha(255, 255); //gira con muy poca potencia a la derecha
+            derecha(200, 200); //gira con muy poca potencia a la derecha
             delay(20);
             paro();
             delay(10);
@@ -74,7 +80,7 @@ void loop() {
 
           case 2: //DETECTA SENSOR ENFRENTE IZQUIERDA.
             Serial.println("caso 2 ");
-            izquierda(250, 250);
+            izquierda(200, 200);
             delay(20);//gira con poca potencia a la izquierda
             paro();
             delay(10);
@@ -100,7 +106,7 @@ void loop() {
             Serial.println("caso  4");
             digitalWrite(led,HIGH);
             delay(5);
-            derecha(255, 255); //gira casi full a la derecha.
+            derecha(230, 230); //gira casi full a la derecha.
             delay(20);
             paro();
             delay(10);
@@ -110,10 +116,20 @@ void loop() {
 
           case 5: //DETECTA ENFRENTE DERECHA Y DERECHA.
             Serial.println("caso  5");
-            derecha(255, 255); //gira con poca potencia a la derecha
+                                      digitalWrite(led3,HIGH);
+            delay(5);
+                        digitalWrite(led,HIGH);
+            delay(5);
+
+            derecha(200, 200); //gira con poca potencia a la derecha
             delay(20);
             paro();
             delay(10);
+                        
+                                          digitalWrite(led3,LOW);
+            delay(5);
+                                    digitalWrite(led,LOW);
+            delay(5);
             
             break;
 
@@ -123,7 +139,7 @@ void loop() {
                         digitalWrite(led2,HIGH);
             delay(5);
 
-            izquierda(255, 255); //gira casi full a la izquierda
+            izquierda(230, 230); //gira casi full a la izquierda
             delay(20);
             paro();
             delay(10);
@@ -135,11 +151,19 @@ void loop() {
 
           case 10:  //DETECTA ENFRENTE IZQUIERDA E IZQUIERDA.
             Serial.println("caso  10");
-            izquierda(255, 255); //gira con poca potencia a la izquierda
+                                                  digitalWrite(led3,HIGH);
+            delay(5);
+                                    digitalWrite(led2,HIGH);
+            delay(5);
+            izquierda(200, 200); //gira con poca potencia a la izquierda
             delay(20);
             paro();
             delay(10);
-            
+
+                                                      digitalWrite(led3,LOW);
+            delay(5);
+                                                digitalWrite(led2,LOW);
+            delay(5);
             break;
 
           case 15:  //DETECTAN TODOS, 1vs10000 kmara qleros, manos les van a faltar para pelarme la verga.
